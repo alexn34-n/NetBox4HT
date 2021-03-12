@@ -1,3 +1,5 @@
+package commands;
+
 import java.io.Serializable;
 
 public class CommandDataSendFile implements Serializable {

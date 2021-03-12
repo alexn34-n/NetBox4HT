@@ -1,3 +1,4 @@
+import commands.*;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -130,7 +131,7 @@ public class MyFileHandler extends SimpleChannelInboundHandler<Command> {
 
             case FILE: {
                 int ptr = 0;
-                // File newFile = new File(serverDir + "/" + fileName);
+
                 try {
                     try (FileOutputStream fos = new FileOutputStream(newFile, true)) {
                         if (fileSize > buffer.length) {
@@ -198,7 +199,7 @@ public class MyFileHandler extends SimpleChannelInboundHandler<Command> {
                 StringBuilder sb = new StringBuilder();
                 sb.append(file.getName()).append(" ");
                 if (file.isFile()) {
-                    sb.append("[FILE} | ").append(file.length()).append(" bytes.\n");
+                    sb.append("[FILE] | ").append(file.length()).append(" bytes.\n");
                 } else {
                     sb.append("[DIR]\n");
                 }

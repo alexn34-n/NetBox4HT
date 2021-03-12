@@ -16,7 +16,7 @@ public class BaseAuthService {
 
     public void connect() throws ClassNotFoundException, SQLException {
         Class.forName("org.sqlite.JDBC");
-        connection= DriverManager.getConnection("jdbc::sqlite:Enter.db");
+        connection= DriverManager.getConnection("jdbc:sqlite:Enter1.db");
     }
 
     public void disconnect() {

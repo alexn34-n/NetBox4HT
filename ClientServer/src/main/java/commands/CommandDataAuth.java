@@ -1,3 +1,5 @@
+package commands;
+
 import java.io.Serializable;
 
 public class CommandDataAuth implements Serializable {
@@ -19,7 +21,7 @@ public class CommandDataAuth implements Serializable {
 
     @Override
     public String toString() {
-        return "AuthCommandData{" +
+        return "commands.CommandDataAuth{" +
                 "login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 '}';

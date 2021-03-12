@@ -1,3 +1,5 @@
+package commands;
+
 import java.io.Serializable;
 
 public class CommandDataChangeDirectory implements Serializable {
@@ -13,7 +15,7 @@ public class CommandDataChangeDirectory implements Serializable {
 
     @Override
     public String toString() {
-        return "CommandDataChangeDirectory{" +
+        return "commands.CommandDataChangeDirectory{" +
                 "path='" + path + '\'' +
                 '}';
     }
