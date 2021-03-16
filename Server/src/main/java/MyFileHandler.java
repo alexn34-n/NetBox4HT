@@ -47,10 +47,11 @@ public class MyFileHandler extends SimpleChannelInboundHandler<Command> {
 
         Command commandFromClient = command;
         switch (commandFromClient.getType()) {
+
             case CD:{
                 CommandDataChangeDirectory changeDirectoryCommandData = (CommandDataChangeDirectory)commandFromClient.getData();
                 String directory = changeDirectoryCommandData.getPath();
-                System.out.println("Получена команда CD "+ directory);
+                System.out.println("Received command CD "+ directory);
                 File file = new File(serverDir);
                 if (directory.trim().equals("...")) {
                     if (serverDir.equals(SERVER_DIR+File.separator+username)) {
@@ -74,7 +75,7 @@ public class MyFileHandler extends SimpleChannelInboundHandler<Command> {
             }
 
             case LS:{
-                System.out.println("Получена команда LS");
+                System.out.println("Received  command  LS");
                 CommandDataListFiles listFilesCommandData = (CommandDataListFiles)commandFromClient.getData();
                 ArrayList<String>filesList = createListFiles();
                 Command commandToClient = new Command().sendListFiles(filesList);
@@ -83,7 +84,7 @@ public class MyFileHandler extends SimpleChannelInboundHandler<Command> {
             }
 
             case GET: {
-                System.out.println("Получена команда Get");
+                System.out.println("Received command Get");
                 CommandDataGetFile getFileCommandData = (CommandDataGetFile) commandFromClient.getData();
                 String fileName = getFileCommandData.getFileName();
                 File fileToSend = new File(serverDir + "/"+fileName);
@@ -107,14 +108,14 @@ public class MyFileHandler extends SimpleChannelInboundHandler<Command> {
                 }
 
                 else {
-                    Command commandToClient = new Command().error("Файла не существует!");
+                    Command commandToClient = new Command().error("This file is not existed");
                     ctx.writeAndFlush(commandToClient);
                 }
                 break;
             }
 
             case SEND: {
-                System.out.println("Получена команда Send");
+                System.out.println("Received command  Send");
                 CommandDataSendFile sendFileCommandData = (CommandDataSendFile) commandFromClient.getData();
                 fileName = sendFileCommandData.getFileName();
                 fileSize = sendFileCommandData.getFileSize();
@@ -129,9 +130,9 @@ public class MyFileHandler extends SimpleChannelInboundHandler<Command> {
                 break;
             }
 
+
             case FILE: {
                 int ptr = 0;
-
                 try {
                     try (FileOutputStream fos = new FileOutputStream(newFile, true)) {
                         if (fileSize > buffer.length) {
@@ -155,7 +156,7 @@ public class MyFileHandler extends SimpleChannelInboundHandler<Command> {
             }
 
             case CREATE:{
-                System.out.println("Получена команда Create");
+                System.out.println("Received command Create");
                 CommandDataCreateDid createDidCommandData = (CommandDataCreateDid) commandFromClient.getData();
                 String dirName = createDidCommandData.getDirName();
                 String fullDirName = serverDir+"/"+dirName;
@@ -163,33 +164,33 @@ public class MyFileHandler extends SimpleChannelInboundHandler<Command> {
                 if(!file.exists()||(file.exists()&&!file.isDirectory()))
                 {
                     new File(fullDirName).mkdir();
-                    Command commandToClient = new Command().success(" Создана директория "+ dirName);
+                    Command commandToClient = new Command().success("Created directory "+ dirName);
                     ctx.writeAndFlush(commandToClient);
                 }
                 else {
-                    Command commandToClient = new Command().error("Директория с таким именем уже существует на сервере!");
+                    Command commandToClient = new Command().error("The directory with same name  already existed  in server !");
                     ctx.writeAndFlush(commandToClient);
                 }
             }
 
             case ERROR:{
-                System.out.println("Неизвестная команда");
+                System.out.println("Unknown command");
                 CommandDataError errorCommandData = (CommandDataError) commandFromClient.getData();
                 String error = errorCommandData.getError();
                 System.out.println(error+"\n");
                 break;
             }
 
+
             default:{
-                System.out.println("Получена неизвестная команда!");
+                System.out.println("Received unknown command");
                 break;
             }
         }
 
-
     }
 
-    public ArrayList<String > createListFiles(){
+    public ArrayList<String> createListFiles(){
         File dir = new File(serverDir);
         File[] files = dir.listFiles();
         ArrayList<String> filesList = new ArrayList<>();
@@ -199,7 +200,7 @@ public class MyFileHandler extends SimpleChannelInboundHandler<Command> {
                 StringBuilder sb = new StringBuilder();
                 sb.append(file.getName()).append(" ");
                 if (file.isFile()) {
-                    sb.append("[FILE] | ").append(file.length()).append(" bytes.\n");
+                    sb.append("[FILE} | ").append(file.length()).append(" bytes.\n");
                 } else {
                     sb.append("[DIR]\n");
                 }
